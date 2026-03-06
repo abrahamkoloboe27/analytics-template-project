@@ -5,7 +5,7 @@ requires-python = ">=3.12.9"
 [[package]]
 name = "gozem-analytics-template"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "ruff" },
 ]
