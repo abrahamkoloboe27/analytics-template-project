@@ -1,0 +1,34 @@
+# Python cache
+__pycache__/
+*.py[oc]
+
+# Virtual environments
+.venv/
+
+# Build artifacts
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Git metadata
+.git/
+.gitignore
+
+# Editor / IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation (not needed at runtime)
+docs/
+README*.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local data / output directories (mount at runtime instead)
+data/
+output/

@@ -1,6 +1,8 @@
 # Analytics Template Project
 
 > A ready-to-use Python analytics project template powered by **[uv](https://docs.astral.sh/uv/)** and **[ruff](https://docs.astral.sh/ruff/)**.
+>
+> 🇫🇷 **Version française :** [README.fr.md](README.fr.md)
 
 ---
 
@@ -20,6 +22,8 @@
    - [Pre-push checklist](#pre-push-checklist)
 6. [Development Workflow](#development-workflow)
 7. [Adding New Scripts and Utilities](#adding-new-scripts-and-utilities)
+8. [Docker](#docker)
+9. [Further Documentation](#further-documentation)
 
 ---
 
@@ -31,16 +35,23 @@ analytics-template-project/
 ├── uv.lock                     # Locked dependency graph (committed to git)
 ├── .python-version             # Python version pin used by uv
 ├── .gitignore
+├── Dockerfile                  # Container image based on python:3.12.9-slim
+├── .dockerignore
 │
 ├── scripts/                    # ← Entry-point scripts (one file = one job)
 │   ├── main.py                 #   Minimal hello-world entry point
 │   ├── example_analysis.py     #   Example: descriptive statistics pipeline
 │   └── example_pipeline.py     #   Example: multi-step ETL pipeline
 │
-└── src/                        # ← Re-usable source packages
-    └── utils/
-        ├── __init__.py         #   Public re-exports
-        └── helpers.py          #   Logging, timing, formatting, config helpers
+├── src/                        # ← Re-usable source packages
+│   └── utils/
+│       ├── __init__.py         #   Public re-exports
+│       └── helpers.py          #   Logging, timing, formatting, config helpers
+│
+└── docs/                       # ← Developer documentation
+    ├── onboarding.md           #   Getting started guide for new team members
+    ├── bonnes_pratiques.md     #   Development best practices (French)
+    └── architecture.md         #   Architecture overview and technical decisions
 ```
 
 **Convention:**
@@ -285,3 +296,51 @@ uv add --dev <package-name>    # development-only dependency
 ```
 
 Always commit both `pyproject.toml` **and** `uv.lock` so that every team member gets exactly the same environment.
+
+---
+
+## Docker
+
+The project ships a `Dockerfile` based on `python:3.12.9-slim` for a reproducible containerised runtime.
+
+### Build the image
+
+```bash
+docker build -t analytics-template .
+```
+
+### Run a script inside the container
+
+```bash
+# Default entry point
+docker run --rm analytics-template
+
+# Example analysis script
+docker run --rm analytics-template python scripts/example_analysis.py
+
+# Example pipeline script
+docker run --rm analytics-template python scripts/example_pipeline.py
+
+# Interactive shell
+docker run --rm -it analytics-template bash
+```
+
+### Mount local data
+
+```bash
+docker run --rm \
+  -v "$(pwd)/data:/app/data" \
+  analytics-template \
+  python scripts/my_script.py
+```
+
+---
+
+## Further Documentation
+
+| Document | Description |
+|---|---|
+| [`docs/onboarding.md`](docs/onboarding.md) | Step-by-step setup guide for new team members |
+| [`docs/bonnes_pratiques.md`](docs/bonnes_pratiques.md) | Development best practices and coding conventions |
+| [`docs/architecture.md`](docs/architecture.md) | Architecture overview and technical decisions |
+| [`README.fr.md`](README.fr.md) | 🇫🇷 Version française de ce README |
